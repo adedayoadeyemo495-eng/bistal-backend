@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/Product');
-const { protect, adminOnly } = require('../middleware/auth');
+const Product = require('./Product');
+const { protect, adminOnly } = require('./auth');
 
 // GET /api/products — list with filters
 router.get('/', async (req, res) => {

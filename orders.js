@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const Order = require('../models/Order');
-const Product = require('../models/Product');
-const { protect, adminOnly } = require('../middleware/auth');
+const Order = require('./Order');
+const Product = require('./Product');
+const { protect, adminOnly } = require('./auth');
 
 // POST /api/orders — create order (customer must be logged in)
 router.post('/', protect, async (req, res) => {
