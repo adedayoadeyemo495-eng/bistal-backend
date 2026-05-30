@@ -2,39 +2,39 @@ require('dotenv').config();
 var express = require('express');
 var mongoose = require('mongoose');
 var cors = require('cors');
-var bcrypt = require('bcryptjs');
-var jwt = require('jsonwebtoken');
 var path = require('path');
 
 var app = express();
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// ── MODELS ──
-var userSchema = new mongoose.Schema({
-  name: { type: String, required: true, trim: true },
-  email: { type: String, unique: true, sparse: true, lowercase: true, trim: true },
-  phone: { type: String, unique: true, sparse: true, trim: true },
-  password: { type: String, required: true, minlength: 6, select: false },
-  role: { type: String, enum: ['customer', 'admin'], default: 'customer' },
-  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Product' }],
-  isActive: { type: Boolean, default: true },
-  lastLogin: Date
-}, { timestamps: true });
+app.use('/api/auth', require('./auth'));
+app.use('/api/products', require('./products'));
+app.use('/api/orders', require('./orders'));
 
-userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) return next();
-  this.password = await bcrypt.hash(this.password, 12);
-  next();
+app.get('/api/health', function(req, res) {
+  res.json({ success: true, message: 'Bistal API is running' });
 });
-userSchema.methods.comparePassword = async function(p) { return bcrypt.compare(p, this.password); };
-userSchema.methods.toJSON = function() { var o = this.toObject(); delete o.password; return o; };
-var User = mongoose.model('User', userSchema);
 
-var productSchema = new mongoose.Schema({
-  name: { type: String, required: true, trim: true },
-  brand: { type: String, default: 'BistalPower™' },
+app.use(express.static(__dirname));
+
+app.get('*', function(req, res) {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+var PORT = process.env.PORT || 5000;
+
+mongoose.connect(process.env.MONGODB_URI).then(function() {
+  console.log('MongoDB connected');
+  app.listen(PORT, function() {
+    console.log('Running on port ' + PORT);
+  });
+}).catch(function(err) {
+  console.error('MongoDB failed: ' + err.message);
+  process.exit(1);
+});  brand: { type: String, default: 'BistalPower™' },
   description: { type: String, default: '' },
   price: { type: Number, required: true, min: 0 },
   oldPrice: { type: Number, default: null },
