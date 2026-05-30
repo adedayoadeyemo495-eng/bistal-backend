@@ -14,27 +14,29 @@ app.use('/api/auth', require('./auth'));
 app.use('/api/products', require('./products'));
 app.use('/api/orders', require('./orders'));
 
-app.get('/api/health', (req, res) => {
-  res.json({ success: true, message: '🟢 Bistal API is running' });
+app.get('/api/health', function(req, res) {
+  res.json({ success: true, message: 'Bistal API is running' });
 });
 
 app.use(express.static(__dirname));
-app.get('*', (req, res) => {
+
+app.get('*', function(req, res) {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
 const PORT = process.env.PORT || 5000;
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('✅ MongoDB connected');
-    app.listen(PORT, () => console.log(`🚀 Running on port ${PORT}`));
-  })
-  .catch(err => {
-    console.error('❌ MongoDB failed:', err.message);
-    process.exit(1);
-  });
 
-module.exports = app;  app.get('*', (req, res) => {
+mongoose.connect(process.env.MONGODB_URI).then(function() {
+  console.log('MongoDB connected');
+  app.listen(PORT, function() {
+    console.log('Running on port ' + PORT);
+  });
+}).catch(function(err) {
+  console.error('MongoDB failed: ' + err.message);
+  process.exit(1);
+});
+
+module.exports = app;module.exports = app;  app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
   });
 }
