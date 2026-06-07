@@ -1,0 +1,29 @@
+{
+  "name": "Bistal All Merchandise Ltd",
+  "short_name": "Bistal",
+  "description": "Nigeria's #1 Powerbank Store \u2014 Quality Sourced, Quality Delivered",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#cc0000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://res.cloudinary.com/dyy7aepmv/image/upload/w_192,h_192,c_fill/IMG-20260511-WA0023_1_olkeed.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://res.cloudinary.com/dyy7aepmv/image/upload/w_512,h_512,c_fill/IMG-20260511-WA0023_1_olkeed.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": [
+    "shopping",
+    "business"
+  ],
+  "lang": "en-NG"
+}
